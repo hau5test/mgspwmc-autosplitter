@@ -24,7 +24,7 @@ Offsets in the state block (types verified in the code that writes them):
 +0x13818 ZEKE parts, +0x18334 titles (384 bytes, 3 = earned).
 */
 
-state("mgspw") {}
+state("METAL GEAR SOLID PEACE WALKER") {}
 
 startup {
 
@@ -56,14 +56,14 @@ update {
 
 gameTime
 {
-	return TimeSpan.FromMilliseconds(current.TotalPlaytime * 1000 / 60);
+	return TimeSpan.FromMilliseconds(current.TotalPlaytime * 1000);
 }
 
 onStart {
-  vars.completedSplits.Clear();
+//  vars.completedSplits.Clear();
 }
 start {
-//  return (current.MapName != "title" && old.MapName == "title");
+ return current.TotalPlaytime > 0 && old.TotalPlaytime < 1;
 }
 
 split {
