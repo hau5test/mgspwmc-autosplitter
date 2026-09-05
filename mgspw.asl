@@ -40,7 +40,9 @@ w01s03a           03 - Puerto Del Alba
 w01s04a           04 - El Cenegal: Jungle ++ El Cenegal: Ravine ++ El Cenegal: Swamp
 w01s05a           05 - Río del Jade 
 w01s06a           06 - Bananal Fruta de Oro: Sorting Shed 
-w01s06a           06 - Bananal Fruta de Oro: Sorting Shed 
+w01s06a           06 - Bananal Fruta de Oro: Sorting Shed
+
+w06s02a           Deck 
 */
 /*
 Mission ID Notes
@@ -80,8 +82,8 @@ Chapter 4
     Mission 26 -- Peace Walker Battle 3
 
 Chapter 5
-            Mission 27 -- Zadornov Search 1
-ID 33       Mission 28 -- Zadornov Search 2
+    Mission 27 -- Zadornov Search 1
+    Mission 28 -- Zadornov Search 2
     Mission 29 -- Zadornov Search 3
     Mission 30 -- Zadornov Search 4
     Mission 31 -- Zadornov Search 5
@@ -92,43 +94,216 @@ ID 33       Mission 28 -- Zadornov Search 2
 state("METAL GEAR SOLID PEACE WALKER") {}
 
 startup {
+  vars.D = new ExpandoObject();
+  var D = vars.D;
 
-    Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
+  Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
 /*
 */
-    //This allows is to look through a bitmask in order to get split information
-    vars.bitCheck = new Func<int, int, bool>((int val, int b) => (val & (1 << b)) != 0);
+  //This allows is to look through a bitmask in order to get split information
+  D.bitCheck = new Func<int, int, bool>((int val, int b) => (val & (1 << b)) != 0);
 
-    vars.rankCheck = new Func<int, string> ((int rankNum) => {
-      switch (rankNum) {
-        case -1:
-          return "Not Yet Played";
-          break;
-        case 0:
-          return "S-Rank";
-          break;
-        case 1:
-          return "A-Rank";
-          break;
-        case 2:
-          return "B-Rank";
-          break;
-        case 3:
-          return "C-Rank";
-          break;
-        default:
-          return "Not Yet Played"; 
-          break;
-      }
-    });
+  D.Ranks = new Dictionary<string, string>() {
+    { "-1",  "Not Played Yet" },
+    { "0",  "S-Rank" },
+    { "1",  "A-Rank" },
+    { "2",  "B-Rank" },
+    { "3",  "C-Rank" }
+  };
 
-    vars.timeCheck = new Func<int, string> ((int checkMissionTime) => {
-      if(checkMissionTime > 0) {
-        print(TimeSpan.FromMilliseconds((int)checkMissionTime * 1000 / 300).ToString(@"mm\:ss\.ms"));
-      } else {
-        return "Not Played Yet";
-      }
-    });
+  D.Missions = new Dictionary<uint, string>() {
+    { 1,  "Investigate the Supply Facility" },
+    { 2,  "Contact the Sandinista Comandante" },
+    { 3,  "Pursue Amanda" },
+    { 4,  "Armored Vehicle Battle: LAV-Type G" },
+    { 5,  "Rescue Chico" },
+    { 6,  "Pursue the Jungle Train" },
+    { 7,  "Tank Battle: T-72U" },
+    { 8,  "Destroy the Barricade" },
+    { 9,  "Infiltrate the Crater Base" },
+    { 10,  "Pupa Battle" },
+    { 11,  "Travel to the Cloud Forest" },
+    { 12,  "Attack Chopper Battle: MI-24A" },
+    { 13,  "Head for the Lab" },
+    { 14,  "Locate the ID Card" },
+    { 15,  "Chrysalis Battle" },
+    { 16,  "Travel to the Mine Base" },
+    { 17,  "Eliminate the Guards" },
+    { 18,  "Cocoon Battle" },
+    { 19,  "Infiltrate the Underground Base" },
+    { 20,  "Torture Chamber Escape" },
+    { 21,  "Head for Peace Walker's Hangar" },
+    { 22,  "Peace Walker Battle" },
+    { 23,  "" },
+    { 24,  "Infiltrate the U.S. Missile Base" },
+    { 25,  "Head to the Control Tower" },
+    { 26,  "Peace Walker Battle 2" },
+    { 27,  "Peace Walker Battle 3" },
+    { 28,  "Zadornov Search 1" },
+    { 29,  "Zadornov Search 3" },
+    { 30,  "Zadornov Search 4" },
+    { 31,  "Zadornov Search 6" },
+    { 32,  "Zadornov Search 5" },
+    { 33,  "Zadornov Search 2" },
+    { 34,  "Zeke Battle" },
+    { 35,  "" },
+    { 36,  "[005] Marksmanship Challenge" },
+    { 37,  "[006] Marksmanship Challenge" },
+    { 38,  "[007] Marksmanship Challenge" },
+    { 39,  "" },
+    { 40,  "[009] Marksmanship Challenge" },
+    { 41,  "[028] Item Capture" },
+    { 42,  "[029] Item Capture" },
+    { 43,  "[032] Classified Document Retrieval" },
+    { 44,  "[030] Classified Document Retrieval" },
+    { 45,  "[031] Classified Document Retrieval" },
+    { 46,  "[062] Dead Man's Treasure" },
+    { 47,  "[060] Dead Man's Treasure" },
+    { 48,  "[061] Dead Man's Treasure" },
+    { 49,  "[034] Claymore Disarmament" },
+    { 50,  "[033] Claymore Disarmament" },
+    { 51,  "" },
+    { 52,  "[010] Fulton Recovery" },
+    { 53,  "[011] Fulton Recovery" },
+    { 54,  "[014] Fulton Recovery" },
+    { 55,  "[016] Fulton Recovery" },
+    { 56,  "[013] Fulton Recovery" },
+    { 57,  "[012] Fulton Recovery" },
+    { 58,  "" },
+    { 59,  "[015] Fulton Recovery" },
+    { 60,  "" },
+    { 61,  "[017] Fulton Recovery" },
+    { 62,  "" },
+    { 63,  "" },
+    { 64,  "" },
+    { 65,  "[044] Defend Key Supplies" },
+    { 66,  "" },
+    { 67,  "[039] Base Defense" },
+    { 68,  "[041] Base Defense" },
+    { 69,  "" },
+    { 70,  "" },
+    { 71,  "[043] Defend Key Supplies" },
+    { 72,  "[042] POW Defense" },
+    { 73,  "[038] Base Defense" },
+    { 74,  "" },
+    { 75,  "" },
+    { 76,  "" },
+    { 77,  "[018] Target Demolition" },
+    { 78,  "[019] Target Demolition" },
+    { 79,  "" },
+    { 80,  "" },
+    { 81,  "[020] Target Demolition" },
+    { 82,  "" },
+    { 83,  "[021] Cargo Truck Demolition" },
+    { 84,  "[026] Eliminate Enemy Soldiers" },
+    { 85,  "[023] Eliminate Enemy Soldiers" },
+    { 86,  "[024] Eliminate Enemy Soldiers" },
+    { 87,  "" },
+    { 88,  "[022] Eliminate Enemy Soldiers" },
+    { 89,  "[052] Eliminate the Kidnappers" },
+    { 90,  "" },
+    { 91,  "" },
+    { 92,  "[035] Hold Up" },
+    { 93,  "[037] Hold Up" },
+    { 94,  "" },
+    { 95,  "" },
+    { 96,  "" },
+    { 97,  "" },
+    { 98,  "" },
+    { 99,  "[056] One Shot" },
+    { 100,  "" },
+    { 101,  "" },
+    { 102,  "" },
+    { 103,  "[059] Ghost Photography" },
+    { 104,  "" },
+    { 105,  "[066] Missile Intercept Mission" },
+    { 106,  "" },
+    { 107,  "" },
+    { 108,  "[036] Hold Up" },
+    { 109,  "[063] Pooyan Mission" },
+    { 110,  "[065] Pooyan Mission" },
+    { 111,  "[064] Pooyan Mission" },
+    { 112,  "[053] Clearing Escape" },
+    { 113,  "" },
+    { 114,  "" },
+    { 115,  "[051] Obstacle Demolition" },
+    { 116,  "" },
+    { 117,  "" },
+    { 118,  "[054] Snake Gear Retrieval" },
+    { 119,  "" },
+    { 120,  "" },
+    { 121,  "" },
+    { 122,  "" },
+    { 123,  "" },
+    { 124,  "" },
+    { 125,  "" },
+    { 126,  "" },
+    { 127,  "" },
+    { 128,  "[045] Perfect Stealth" },
+    { 129,  "[050] Perfect Stealth" },
+    { 130,  "[046] Perfect Stealth" },
+    { 131,  "[047] Perfect Stealth" },
+    { 132,  "[048] Perfect Stealth" },
+    { 133,  "[048] Perfect Stealth" },
+    { 134,  "" },
+    { 135,  "" },
+    { 136,  "" },
+    { 137,  "" },
+    { 138,  "[057] Paparazzi" },
+    { 139,  "" },
+    { 140,  "[058] Paparazzi" },
+    { 141,  "" },
+    { 142,  "" },
+    { 143,  "" },
+    { 144,  "" },
+    { 145,  "" },
+    { 146,  "" },
+    { 147,  "[025] Eliminate Enemy Soldiers" },
+    { 148,  "[008] Marksmanship Challenge" },
+    { 149,  "" },
+    { 150,  "" },
+    { 151,  "" },
+    { 152,  "" },
+    { 153,  "[040] Base Defense" },
+    { 154,  "" },
+    { 155,  "[027] Eliminate Enemy Soldiers" },
+    { 156,  "[056] U.S. Soldier Rescue" },
+    { 157,  "[067] Date with Paz" },
+    { 158,  "[068] Date with Kaz" },
+    { 159,  "[002] Target Practice: No Limit" },
+    { 160,  "[004] Target Practice: Time Attack" },
+    { 161,  "[001] Target Practice: No Limit" },
+    { 162,  "[003] Target Practice: Score Attack" },
+    { 163,  "[069] Armored Vehicle Battle: BTR-60 PA" },
+    { 164,  "[070] Armored Vehicle Battle: BTR-60 PA Custom" },
+    { 165,  "[071] Armored Vehicle Battle: BTR-60 PB" },
+    { 166,  "[072] Armored Vehicle Battle: BTR-60 PB Custom" },
+    { 167,  "[073] Armored Vehicle Battle: LAV Type-G Custom" },
+    { 168,  "[074] Armored Vehicle Battle: LAV Type-C" },
+    { 169,  "[075] Armored Vehicle Battle: LAV Type-C Custom" },
+    { 170,  "[076] Tank Battle: T-72U" },
+    { 171,  "[077] Tank Battle: T-72U Custom" },
+    { 172,  "[078] Tank Battle: T-72A" },
+    { 173,  "[079] Tank Battle: T-72A Custom" },
+    { 174,  "[080] Tank Battle: KPz 70" },
+    { 175,  "[081] Tank Battle: KPz 70 Custom" },
+    { 176,  "[082] Tank Battle: MBTk-70" },
+    { 177,  "[083] Tank Battle: MBTk-70 Custom" },
+    { 178,  "[084] Attack Chopper Battle: Mi-24A" },
+    { 179,  "[085] Attack Chopper Battle: Mi-24A Custom" },
+    { 180,  "[086] Attack Chopper Battle: Mi-24A" },
+    { 181,  "" },
+    { 182,  "" },
+    { 183,  "" },
+    { 184,  "" },
+    { 185,  "" },
+    { 186,  "" },
+    { 187,  "" },
+    { 188,  "" },
+    { 189,  "" },
+  };
+
+  D.timeCheck = new Func<int, string> ((int checkMissionTime) => TimeSpan.FromMilliseconds((int)checkMissionTime * 1000 / 300).ToString(@"mm\:ss\.ms"));
 
 
     settings.Add("settings", true, "Settings");
@@ -171,20 +346,21 @@ startup {
 
     settings.CurrentDefaultParent = "chapter_4";
     settings.Add("chapter_4", true, "Chapter 4", "splits");
-      settings.Add("23_result", false, "Infiltrate the U.S. Missile Base");
-      settings.Add("24_result", false, "Head to the Control Tower");
-      settings.Add("25_result", false, "Peace Walker Battle 2");
-      settings.Add("26_flashdemo", false, "Peace Walker Battle 3");
+      settings.Add("24_result", false, "Infiltrate the U.S. Missile Base");
+      settings.Add("25_result", false, "Head to the Control Tower");
+      settings.Add("26_result", false, "Peace Walker Battle 2");
+      settings.Add("27_flashdemo", false, "Peace Walker Battle 3");
 
     settings.CurrentDefaultParent = "chapter_5";
     settings.Add("chapter_5", true, "Chapter 5", "splits");
-      settings.Add("27_result", false, "Zadornov Search 1");
-      settings.Add("28_result", false, "Zadornov Search 2");
+      settings.Add("28_result", false, "Zadornov Search 1");
+      settings.Add("33_result", false, "Zadornov Search 2");
       settings.Add("29_result", false, "Zadornov Search 3");
       settings.Add("30_result", false, "Zadornov Search 4");
-      settings.Add("31_result", false, "Zadornov Search 5");
-      settings.Add("32_result", false, "Zadornov Search 6");
-      settings.Add("33_flashdemo", false, "Zeke Battle");
+      settings.Add("32_result", false, "Zadornov Search 5");
+      settings.Add("31_result", false, "Zadornov Search 6");
+      settings.Add("34_flashdemo", false, "Zeke Battle");
+
 
     print("Startup complete");
 }
@@ -309,6 +485,7 @@ init {
 }
 
 update {
+  var D = vars.D;
   vars.Helper.Update();
   vars.Helper.MapPointers();
     
@@ -320,15 +497,11 @@ update {
   if(current.missionId != old.missionId) {
     print("new mission started: mission id: " + current.missionId);
   }
-
-  // for debugging
-  if(current.stageCode != old.stageCode && current.stageCode == "result" && current.missionId > 0) {
-    print("Current clear code for current mission " + current.missionId + ": " + ((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId]);
+  string rank ="";
+  if(current.missionId > 0 && current.missionId < 34) {
+    D.Ranks.TryGetValue(Convert.ToString(((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId]), out rank);
   }
-  if(current.stageCode != old.stageCode && current.missionId > 0) {
-    print("Current clear code for current mission " + current.missionId + ": " + ((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId]);
-    vars.currentClearCode = vars.rankCheck((int)((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId]);
-  }
+  vars.currentClearCode = rank; 
 }
 
 gameTime
@@ -337,18 +510,22 @@ gameTime
 }
 
 onStart {
+  var D = vars.D;
   vars.runStartFrames = current.highrestimer;
   vars.completedSplits.Clear();
   print("current total playtime at start of run: " + TimeSpan.FromMilliseconds((current.highrestimer) * 1000 / 300 ));
   print("starting run now!");
 
   print("Found PB data:");
-  for (int i = 1; i < 34; i++) 
+  for (int i = 1; i < 34; i++)
   {
+    string rank = "";
     // print("Mission " + i + " best time: " + vars.timeCheck(i) + " best rank: " + vars.rankCheck(i));
     print("Mission " + i);
-    print("best time: " + vars.timeCheck(Convert.ToInt32(((IDictionary<String, Object>)current)["stageBestTimeM_" + i])));
-    print("best rank: " + vars.rankCheck(Convert.ToInt32(((IDictionary<String, Object>)current)["stageClearCodeM_" + i])));
+    print("best time: " + D.timeCheck(Convert.ToInt32(((IDictionary<String, Object>)current)["stageBestTimeM_" + i])));
+    D.Ranks.TryGetValue(Convert.ToString(((IDictionary<String, Object>)current)["stageClearCodeM_" + i]), out rank);
+    print("best rank: " + rank);
+    print("----");
   }
 }
 start {
