@@ -42,7 +42,9 @@ w01s05a           05 - Río del Jade
 w01s06a           06 - Bananal Fruta de Oro: Sorting Shed 
 w01s06a           06 - Bananal Fruta de Oro: Sorting Shed
 
-w06s02a           Deck 
+w06s02a           Deck
+
+w07s01a           Isla de Monstro 
 */
 /*
 Mission ID Notes
@@ -291,16 +293,55 @@ startup {
     { 177,  "[083] Tank Battle: MBTk-70 Custom" },
     { 178,  "[084] Attack Chopper Battle: Mi-24A" },
     { 179,  "[085] Attack Chopper Battle: Mi-24A Custom" },
-    { 180,  "[086] Attack Chopper Battle: Mi-24A" },
-    { 181,  "" },
-    { 182,  "" },
-    { 183,  "" },
-    { 184,  "" },
-    { 185,  "" },
-    { 186,  "" },
-    { 187,  "" },
-    { 188,  "" },
-    { 189,  "" },
+    { 180,  "[086] Attack Chopper Battle: Mi-24D" },
+    { 181,  "[087] Attack Chopper Battle: Mi-24D Custom" },
+    { 182,  "[088] Attack Chopper Battle: AH56A-Bomber" },
+    { 183,  "[089] Attack Chopper Battle: AH56A-Bomber Custom" },
+    { 184,  "[090] Attack Chopper Battle: AH56A-Raider" },
+    { 185,  "[091] Attack Chopper Battle: AH56A-Raider Custom" },
+    { 186,  "[092] Tank Battle: T-72U Custom" },
+    { 187,  "[093] Tank Battle: T-72A" },
+    { 188,  "[094] Tank Battle: T-72A Custom" },
+    { 189,  "[095] Tank Battle: KPz 70" },
+    { 190,  "[096] Tank Battle: KPz 70 Custom" },
+    { 191,  "[097] Tank Battle: MBTk-70" },
+    { 192,  "[098] Tank Battle: MBTk-70 Custom" },
+    { 193,  "[099] Armored Vehicle Battle: BTR-60 PA" },
+    { 194,  "[100] Armored Vehicle Battle: BTR-60 PA Custom" },
+    { 195,  "[101] Armored Vehicle Battle: BTR-60 PB" },
+    { 196,  "[102] Armored Vehicle Battle: BTR-60 PB Custom" },
+    { 197,  "[103] Armored Vehicle Battle: LAV-Type G" },
+    { 198,  "[104] Armored Vehicle Battle: LAV-Type G Custom" },
+    { 199,  "" },
+    { 200,  "" },
+    { 201,  "[105] Attack Chopper Battle: Mi-24A Custom" },
+    { 202,  "[106] Attack Chopper Battle: Mi-24D" },
+    { 203,  "[107] Attack Chopper Battle: Mi-24D Custom" },
+    { 204,  "[108] Attack Chopper Battle: AH56A-Bomber" },
+    { 205,  "[109] Attack Chopper Battle: AH56A-Bomber Custom" },
+    { 206,  "[110] Attack Chopper Battle: AH56A-Raider" },
+    { 207,  "[111] Attack Chopper Battle: AH56A-Raider Custom" },
+    { 208,  "[112] AI Weapon Battle: Pupa Type II" },
+    { 209,  "[114] AI Weapon Battle: Chrysalis Type II" },
+    { 210,  "[116] AI Weapon Battle: Cocoon Type II" },
+    { 211,  "" },
+    { 212,  "[118] AI Weapon Battle: Peace Walker Type II" },
+    { 217,  "[113] AI Weapon Battle: Pupa Custom" },
+    { 218,  "[115] AI Weapon Battle: Chrysalis Custom" },
+    { 219,  "[117] AI Weapon Battle: Cocoon Custom" },
+    { 220,  "" },
+    { 221,  "[119] AI Weapon Battle: Peace Walker Custom" },
+    { 222,  "[120] Metal Gear ZEKE: Mock Battle" },
+    { 223,  "" },
+    { 224,  "" },
+    { 225,  "[121] <<Hunting Quest: Rathalos>>" },
+    { 226,  "[122] <<Hunting Quest: Rathalos / Twilight>>" },
+    { 227,  "[123] <<Hunting Quest: Tigrex>>" },
+    { 228,  "[124] <<Hunting Quest: Tigrex / Twilight>>" },
+    { 229,  "[125] <<Hunting Quest: Gear REX>>" },
+    { 230,  "[126] <<Hunting Quest: Gear REX / Twilight>>" },
+    { 231,  "[127] Gear REX: Showdown at Crater Base" },
+    { 232,  "[128] Gear REX Strikes Back" },
   };
 
   D.timeCheck = new Func<int, string> ((int checkMissionTime) => TimeSpan.FromMilliseconds((int)checkMissionTime * 1000 / 300).ToString(@"mm\:ss\.ms"));
