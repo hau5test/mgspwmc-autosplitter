@@ -32,7 +32,7 @@ ms_lobby          Mission Selector
 ms_lobby          Versus Ops
 flashdemo         Cutscene / Demonstration
 result            Score Screen
-epigram
+epigram           Opening Text "cutscene"
 
 w00s01a           00 - Intro (Base at the beach)
 w01s01a           01 - Playa Del Alba
@@ -46,7 +46,7 @@ w01s06a           06 - Bananal Fruta de Oro: Sorting Shed
 
 w06s02a           Deck
 
-w07s01a           Isla de Monstro 
+w07s01a           Isla del Monstruo 
 */
 /*
 Mission ID Notes
