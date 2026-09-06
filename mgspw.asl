@@ -27,8 +27,10 @@ Offsets in the state block (types verified in the code that writes them):
 /*
 StageCode Notes:
 my_outer          Mother Base
+my_outer_ap       Recruit Stage
 ms_lobby          Mission Selector
-flashdemo         Cutscene
+ms_lobby          Versus Ops
+flashdemo         Cutscene / Demonstration
 result            Score Screen
 epigram
 
@@ -354,7 +356,9 @@ startup {
     settings.Add("s_rank", true, "Split only on S-Rank");
 
     settings.CurrentDefaultParent = "splits";
-    settings.Add("chapter_1", true, "Chapter 1", "splits");
+    settings.Add("main_ops", true, "Main Ops");
+    settings.CurrentDefaultParent = "main_ops";
+    settings.Add("chapter_1", true, "Chapter 1", "main_ops");
     settings.CurrentDefaultParent = "chapter_1";
       settings.Add("1_result", false, "Investigate the Supply Facility");
       settings.Add("2_result", false, "Contact the Sandinista Comandante");
@@ -368,7 +372,7 @@ startup {
       settings.Add("10_result", false, "Pupa Battle");
 
     settings.CurrentDefaultParent = "chapter_2";
-    settings.Add("chapter_2", true, "Chapter 2", "splits");
+    settings.Add("chapter_2", true, "Chapter 2", "main_ops");
       settings.Add("11_result", false, "Travel to the Cloud Forest");
       settings.Add("12_result", false, "Attack Chopper Battle: MI-24A");
       settings.Add("13_result", false, "Head for the Lab");
@@ -376,7 +380,7 @@ startup {
       settings.Add("15_result", false, "Chrysalis Battle");
 
     settings.CurrentDefaultParent = "chapter_3";
-    settings.Add("chapter_3", true, "Chapter 3", "splits");
+    settings.Add("chapter_3", true, "Chapter 3", "main_ops");
       settings.Add("16_result", false, "Travel to the Mine Base");
       settings.Add("17_result", false, "Eliminate the Guards");
       settings.Add("18_result", false, "Cocoon Battle");
@@ -386,22 +390,152 @@ startup {
       settings.Add("22_result", false, "Peace Walker Battle");
 
     settings.CurrentDefaultParent = "chapter_4";
-    settings.Add("chapter_4", true, "Chapter 4", "splits");
+    settings.Add("chapter_4", true, "Chapter 4", "main_ops");
       settings.Add("24_result", false, "Infiltrate the U.S. Missile Base");
       settings.Add("25_result", false, "Head to the Control Tower");
       settings.Add("26_result", false, "Peace Walker Battle 2");
-      settings.Add("27_flashdemo", false, "Peace Walker Battle 3");
+      settings.Add("27_ending_flow", false, "Peace Walker Battle 3");
 
     settings.CurrentDefaultParent = "chapter_5";
-    settings.Add("chapter_5", true, "Chapter 5", "splits");
+    settings.Add("chapter_5", true, "Chapter 5", "main_ops");
       settings.Add("28_result", false, "Zadornov Search 1");
       settings.Add("33_result", false, "Zadornov Search 2");
       settings.Add("29_result", false, "Zadornov Search 3");
       settings.Add("30_result", false, "Zadornov Search 4");
       settings.Add("32_result", false, "Zadornov Search 5");
       settings.Add("31_result", false, "Zadornov Search 6");
-      settings.Add("34_flashdemo", false, "Zeke Battle");
+      settings.Add("34_result", false, "Zeke Battle");
 
+    settings.CurrentDefaultParent = "extra_ops";
+    settings.Add("extra_ops", true, "Extra OPs", "splits");
+      settings.Add("161_result", false, "[001] Target Practice: No Limit");
+      settings.Add("159_result", false, "[002] Target Practice: No Limit");
+      settings.Add("162_result", false, "[003] Target Practice: Score Attack");
+      settings.Add("160_result", false, "[004] Target Practice: Time Attack");
+      settings.Add("36_result", false, "[005] Marksmanship Challenge");
+      settings.Add("37_result", false, "[006] Marksmanship Challenge");
+      settings.Add("38_result", false, "[007] Marksmanship Challenge");
+      settings.Add("148_result", false, "[008] Marksmanship Challenge");
+      settings.Add("40_result", false, "[009] Marksmanship Challenge");
+      settings.Add("52_result", false, "[010] Fulton Recovery");
+      settings.Add("53_result", false, "[011] Fulton Recovery");
+      settings.Add("57_result", false, "[012] Fulton Recovery");
+      settings.Add("56_result", false, "[013] Fulton Recovery");
+      settings.Add("54_result", false, "[014] Fulton Recovery");
+      settings.Add("59_result", false, "[015] Fulton Recovery");
+      settings.Add("55_result", false, "[016] Fulton Recovery");
+      settings.Add("61_result", false, "[017] Fulton Recovery");
+      settings.Add("77_result", false, "[018] Target Demolition");
+      settings.Add("78_result", false, "[019] Target Demolition");
+      settings.Add("81_result", false, "[020] Target Demolition");
+      settings.Add("83_result", false, "[021] Cargo Truck Demolition");
+      settings.Add("88_result", false, "[022] Eliminate Enemy Soldiers");
+      settings.Add("85_result", false, "[023] Eliminate Enemy Soldiers");
+      settings.Add("86_result", false, "[024] Eliminate Enemy Soldiers");
+      settings.Add("147_result", false, "[025] Eliminate Enemy Soldiers");
+      settings.Add("84_result", false, "[026] Eliminate Enemy Soldiers");
+      settings.Add("155_result", false, "[027] Eliminate Enemy Soldiers");
+      settings.Add("41_result", false, "[028] Item Capture");
+      settings.Add("42_result", false, "[029] Item Capture");
+      settings.Add("44_result", false, "[030] Classified Document Retrieval");
+      settings.Add("45_result", false, "[031] Classified Document Retrieval");
+      settings.Add("43_result", false, "[032] Classified Document Retrieval");
+      settings.Add("50_result", false, "[033] Claymore Disarmament");
+      settings.Add("49_result", false, "[034] Claymore Disarmament");
+      settings.Add("92_result", false, "[035] Hold Up");
+      settings.Add("108_result", false, "[036] Hold Up");
+      settings.Add("93_result", false, "[037] Hold Up");
+      settings.Add("73_result", false, "[038] Base Defense");
+      settings.Add("67_result", false, "[039] Base Defense");
+      settings.Add("153_result", false, "[040] Base Defense");
+      settings.Add("68_result", false, "[041] Base Defense");
+      settings.Add("72_result", false, "[042] POW Defense");
+      settings.Add("71_result", false, "[043] Defend Key Supplies");
+      settings.Add("65_result", false, "[044] Defend Key Supplies");
+      settings.Add("128_result", false, "[045] Perfect Stealth");
+      settings.Add("130_result", false, "[046] Perfect Stealth");
+      settings.Add("131_result", false, "[047] Perfect Stealth");
+      settings.Add("133_result", false, "[048] Perfect Stealth");
+      settings.Add("132_result", false, "[049] Perfect Stealth");
+      settings.Add("129_result", false, "[050] Perfect Stealth");
+      settings.Add("115_result", false, "[051] Obstacle Demolition");
+      settings.Add("89_result", false, "[052] Eliminate the Kidnappers");
+      settings.Add("112_result", false, "[053] Clearing Escape");
+      settings.Add("118_result", false, "[054] Snake Gear Retrieval");
+      settings.Add("156_result", false, "[055] U.S. Soldier Rescue");
+      settings.Add("99_result", false, "[056] One Shot");
+      settings.Add("138_result", false, "[057] Paparazzi");
+      settings.Add("140_result", false, "[058] Paparazzi");
+      settings.Add("103_result", false, "[059] Ghost Photography");
+      settings.Add("47_result", false, "[060] Dead Man's Treasure");
+      settings.Add("48_result", false, "[061] Dead Man's Treasure");
+      settings.Add("46_result", false, "[062] Dead Man's Treasure");
+      settings.Add("109_result", false, "[063] Pooyan Mission");
+      settings.Add("111_result", false, "[064] Pooyan Mission");
+      settings.Add("110_result", false, "[065] Pooyan Mission");
+      settings.Add("105_result", false, "[066] Missile Intercept Mission");
+      settings.Add("157_result", false, "[067] Date with Paz");
+      settings.Add("158_result", false, "[068] Date with Kaz");
+      settings.Add("163_result", false, "[069] Armored Vehicle Battle: BTR-60 PA");
+      settings.Add("164_result", false, "[070] Armored Vehicle Battle: BTR-60 PA Custom");
+      settings.Add("165_result", false, "[071] Armored Vehicle Battle: BTR-60 PB");
+      settings.Add("166_result", false, "[072] Armored Vehicle Battle: BTR-60 PB Custom");
+      settings.Add("167_result", false, "[073] Armored Vehicle Battle: LAV Type-G Custom");
+      settings.Add("168_result", false, "[074] Armored Vehicle Battle: LAV Type-C");
+      settings.Add("169_result", false, "[075] Armored Vehicle Battle: LAV Type-C Custom");
+      settings.Add("170_result", false, "[076] Tank Battle: T-72U");
+      settings.Add("171_result", false, "[077] Tank Battle: T-72U Custom");
+      settings.Add("172_result", false, "[078] Tank Battle: T-72A");
+      settings.Add("173_result", false, "[079] Tank Battle: T-72A Custom");
+      settings.Add("174_result", false, "[080] Tank Battle: KPz 70");
+      settings.Add("175_result", false, "[081] Tank Battle: KPz 70 Custom");
+      settings.Add("176_result", false, "[082] Tank Battle: MBTk-70");
+      settings.Add("177_result", false, "[083] Tank Battle: MBTk-70 Custom");
+      settings.Add("178_result", false, "[084] Attack Chopper Battle: Mi-24A");
+      settings.Add("179_result", false, "[085] Attack Chopper Battle: Mi-24A Custom");
+      settings.Add("180_result", false, "[086] Attack Chopper Battle: Mi-24D");
+      settings.Add("181_result", false, "[087] Attack Chopper Battle: Mi-24D Custom");
+      settings.Add("182_result", false, "[088] Attack Chopper Battle: AH56A-Bomber");
+      settings.Add("183_result", false, "[089] Attack Chopper Battle: AH56A-Bomber Custom");
+      settings.Add("184_result", false, "[090] Attack Chopper Battle: AH56A-Raider");
+      settings.Add("185_result", false, "[091] Attack Chopper Battle: AH56A-Raider Custom");
+      settings.Add("186_result", false, "[092] Tank Battle: T-72U Custom");
+      settings.Add("187_result", false, "[093] Tank Battle: T-72A");
+      settings.Add("188_result", false, "[094] Tank Battle: T-72A Custom");
+      settings.Add("189_result", false, "[095] Tank Battle: KPz 70");
+      settings.Add("190_result", false, "[096] Tank Battle: KPz 70 Custom");
+      settings.Add("191_result", false, "[097] Tank Battle: MBTk-70");
+      settings.Add("192_result", false, "[098] Tank Battle: MBTk-70 Custom");
+      settings.Add("193_result", false, "[099] Armored Vehicle Battle: BTR-60 PA");
+      settings.Add("194_result", false, "[100] Armored Vehicle Battle: BTR-60 PA Custom");
+      settings.Add("195_result", false, "[101] Armored Vehicle Battle: BTR-60 PB");
+      settings.Add("196_result", false, "[102] Armored Vehicle Battle: BTR-60 PB Custom");
+      settings.Add("197_result", false, "[103] Armored Vehicle Battle: LAV-Type G");
+      settings.Add("198_result", false, "[104] Armored Vehicle Battle: LAV-Type G Custom");
+      settings.Add("201_result", false, "[105] Attack Chopper Battle: Mi-24A Custom");
+      settings.Add("202_result", false, "[106] Attack Chopper Battle: Mi-24D");
+      settings.Add("203_result", false, "[107] Attack Chopper Battle: Mi-24D Custom");
+      settings.Add("204_result", false, "[108] Attack Chopper Battle: AH56A-Bomber");
+      settings.Add("205_result", false, "[109] Attack Chopper Battle: AH56A-Bomber Custom");
+      settings.Add("206_result", false, "[110] Attack Chopper Battle: AH56A-Raider");
+      settings.Add("207_result", false, "[111] Attack Chopper Battle: AH56A-Raider Custom");
+      settings.Add("208_result", false, "[112] AI Weapon Battle: Pupa Type II");
+      settings.Add("217_result", false, "[113] AI Weapon Battle: Pupa Custom");
+      settings.Add("209_result", false, "[114] AI Weapon Battle: Chrysalis Type II");
+      settings.Add("218_result", false, "[115] AI Weapon Battle: Chrysalis Custom");
+      settings.Add("210_result", false, "[116] AI Weapon Battle: Cocoon Type II");
+      settings.Add("219_result", false, "[117] AI Weapon Battle: Cocoon Custom");
+      settings.Add("212_result", false, "[118] AI Weapon Battle: Peace Walker Type II");
+      settings.Add("221_result", false, "[119] AI Weapon Battle: Peace Walker Custom");
+      settings.Add("222_result", false, "[120] Metal Gear ZEKE: Mock Battle");
+      settings.Add("225_result", false, "[121] <<Hunting Quest: Rathalos>>");
+      settings.Add("226_result", false, "[122] <<Hunting Quest: Rathalos / Twilight>>");
+      settings.Add("227_result", false, "[123] <<Hunting Quest: Tigrex>>");
+      settings.Add("228_result", false, "[124] <<Hunting Quest: Tigrex / Twilight>>");
+      settings.Add("229_result", false, "[125] <<Hunting Quest: Gear REX>>");
+      settings.Add("230_result", false, "[126] <<Hunting Quest: Gear REX / Twilight>>");
+      settings.Add("231_result", false, "[127] Gear REX: Showdown at Crater Base");
+      settings.Add("232_result", false, "[128] Gear REX Strikes Back");
 
     print("Startup complete");
 }
@@ -537,6 +671,9 @@ update {
 
   if(current.missionId != old.missionId) {
     print("new mission started: mission id: " + current.missionId);
+  }
+  if(current.stageCode != old.stageCode) {
+    print("potential split point: " + current.missionId + "_" + current.stageCode);
   }
   string rank ="";
   if(current.missionId > 0 && current.missionId < 34) {
