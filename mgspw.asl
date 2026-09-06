@@ -562,74 +562,13 @@ init {
   vars.Helper["characterUsed"] = vars.Helper.MakeString(gameStats, 0x1C098);
 
 // best time records
-  vars.Helper["stageBestTimeM_1"] = vars.Helper.Make<short>(gameStats, 0x29B8);
-  vars.Helper["stageBestTimeM_2"] = vars.Helper.Make<short>(gameStats, 0x29BC);
-  vars.Helper["stageBestTimeM_3"] = vars.Helper.Make<short>(gameStats, 0x29C0);
-  vars.Helper["stageBestTimeM_4"] = vars.Helper.Make<short>(gameStats, 0x29C4);
-  vars.Helper["stageBestTimeM_5"] = vars.Helper.Make<short>(gameStats, 0x29C8);
-  vars.Helper["stageBestTimeM_6"] = vars.Helper.Make<short>(gameStats, 0x29CC);
-  vars.Helper["stageBestTimeM_7"] = vars.Helper.Make<short>(gameStats, 0x29D0);
-  vars.Helper["stageBestTimeM_8"] = vars.Helper.Make<short>(gameStats, 0x29D4);
-  vars.Helper["stageBestTimeM_9"] = vars.Helper.Make<short>(gameStats, 0x29D8);
-  vars.Helper["stageBestTimeM_10"] = vars.Helper.Make<short>(gameStats, 0x29DC);
-  vars.Helper["stageBestTimeM_11"] = vars.Helper.Make<short>(gameStats, 0x29E0);
-  vars.Helper["stageBestTimeM_12"] = vars.Helper.Make<short>(gameStats, 0x29E4);
-  vars.Helper["stageBestTimeM_13"] = vars.Helper.Make<short>(gameStats, 0x29E8);
-  vars.Helper["stageBestTimeM_14"] = vars.Helper.Make<short>(gameStats, 0x29EC);
-  vars.Helper["stageBestTimeM_15"] = vars.Helper.Make<short>(gameStats, 0x29F0);
-  vars.Helper["stageBestTimeM_16"] = vars.Helper.Make<short>(gameStats, 0x29F4);
-  vars.Helper["stageBestTimeM_17"] = vars.Helper.Make<short>(gameStats, 0x29F8);
-  vars.Helper["stageBestTimeM_18"] = vars.Helper.Make<short>(gameStats, 0x29FC);
-  vars.Helper["stageBestTimeM_19"] = vars.Helper.Make<short>(gameStats, 0x2A00);
-  vars.Helper["stageBestTimeM_20"] = vars.Helper.Make<short>(gameStats, 0x2A04);
-  vars.Helper["stageBestTimeM_21"] = vars.Helper.Make<short>(gameStats, 0x2A08);
-  vars.Helper["stageBestTimeM_22"] = vars.Helper.Make<short>(gameStats, 0x2A0C);
-  vars.Helper["stageBestTimeM_23"] = vars.Helper.Make<short>(gameStats, 0x2A10);
-  vars.Helper["stageBestTimeM_24"] = vars.Helper.Make<short>(gameStats, 0x2A14);
-  vars.Helper["stageBestTimeM_25"] = vars.Helper.Make<short>(gameStats, 0x2A18);
-  vars.Helper["stageBestTimeM_26"] = vars.Helper.Make<short>(gameStats, 0x2A1C);
-  vars.Helper["stageBestTimeM_27"] = vars.Helper.Make<short>(gameStats, 0x2A20);
-  vars.Helper["stageBestTimeM_28"] = vars.Helper.Make<short>(gameStats, 0x2A24);
-  vars.Helper["stageBestTimeM_29"] = vars.Helper.Make<short>(gameStats, 0x2A28);
-  vars.Helper["stageBestTimeM_30"] = vars.Helper.Make<short>(gameStats, 0x2A2C);
-  vars.Helper["stageBestTimeM_31"] = vars.Helper.Make<short>(gameStats, 0x2A30);
-  vars.Helper["stageBestTimeM_32"] = vars.Helper.Make<short>(gameStats, 0x2A34);
-  vars.Helper["stageBestTimeM_33"] = vars.Helper.Make<short>(gameStats, 0x2A38);
-
-// best rank records
-  vars.Helper["stageClearCodeM_1"] = vars.Helper.Make<short>(gameStats, 0x32B6);
-  vars.Helper["stageClearCodeM_2"] = vars.Helper.Make<short>(gameStats, 0x32B8);
-  vars.Helper["stageClearCodeM_3"] = vars.Helper.Make<short>(gameStats, 0x32BA);
-  vars.Helper["stageClearCodeM_4"] = vars.Helper.Make<short>(gameStats, 0x32BC);
-  vars.Helper["stageClearCodeM_5"] = vars.Helper.Make<short>(gameStats, 0x32BE);
-  vars.Helper["stageClearCodeM_6"] = vars.Helper.Make<short>(gameStats, 0x32C0);
-  vars.Helper["stageClearCodeM_7"] = vars.Helper.Make<short>(gameStats, 0x32C2);
-  vars.Helper["stageClearCodeM_8"] = vars.Helper.Make<short>(gameStats, 0x32C4);
-  vars.Helper["stageClearCodeM_9"] = vars.Helper.Make<short>(gameStats, 0x32C6);
-  vars.Helper["stageClearCodeM_10"] = vars.Helper.Make<short>(gameStats, 0x32C8);
-  vars.Helper["stageClearCodeM_11"] = vars.Helper.Make<short>(gameStats, 0x32CA);
-  vars.Helper["stageClearCodeM_12"] = vars.Helper.Make<short>(gameStats, 0x32CC);
-  vars.Helper["stageClearCodeM_13"] = vars.Helper.Make<short>(gameStats, 0x32CE);
-  vars.Helper["stageClearCodeM_14"] = vars.Helper.Make<short>(gameStats, 0x32D0);
-  vars.Helper["stageClearCodeM_15"] = vars.Helper.Make<short>(gameStats, 0x32D2);
-  vars.Helper["stageClearCodeM_16"] = vars.Helper.Make<short>(gameStats, 0x32D4);
-  vars.Helper["stageClearCodeM_17"] = vars.Helper.Make<short>(gameStats, 0x32D6);
-  vars.Helper["stageClearCodeM_18"] = vars.Helper.Make<short>(gameStats, 0x32D8);
-  vars.Helper["stageClearCodeM_19"] = vars.Helper.Make<short>(gameStats, 0x32DA);
-  vars.Helper["stageClearCodeM_20"] = vars.Helper.Make<short>(gameStats, 0x32DC);
-  vars.Helper["stageClearCodeM_21"] = vars.Helper.Make<short>(gameStats, 0x32DE);
-  vars.Helper["stageClearCodeM_22"] = vars.Helper.Make<short>(gameStats, 0x32E0);
-  vars.Helper["stageClearCodeM_23"] = vars.Helper.Make<short>(gameStats, 0x32E2);
-  vars.Helper["stageClearCodeM_24"] = vars.Helper.Make<short>(gameStats, 0x32E4);
-  vars.Helper["stageClearCodeM_25"] = vars.Helper.Make<short>(gameStats, 0x32E6);
-  vars.Helper["stageClearCodeM_26"] = vars.Helper.Make<short>(gameStats, 0x32E8);
-  vars.Helper["stageClearCodeM_27"] = vars.Helper.Make<short>(gameStats, 0x32EA);
-  vars.Helper["stageClearCodeM_28"] = vars.Helper.Make<short>(gameStats, 0x32EC);
-  vars.Helper["stageClearCodeM_29"] = vars.Helper.Make<short>(gameStats, 0x32EE);
-  vars.Helper["stageClearCodeM_30"] = vars.Helper.Make<short>(gameStats, 0x32F0);
-  vars.Helper["stageClearCodeM_31"] = vars.Helper.Make<short>(gameStats, 0x32F2);
-  vars.Helper["stageClearCodeM_32"] = vars.Helper.Make<short>(gameStats, 0x32F4);
-  vars.Helper["stageClearCodeM_33"] = vars.Helper.Make<short>(gameStats, 0x32F6);
+for (int i = 0x01; i < 0xE9; i++)
+  {
+  // best time records
+  vars.Helper["stageBestTimeM_" + i] = vars.Helper.Make<short>(gameStats, 0x29B4 + (4 * i));
+  // best rank records
+  vars.Helper["stageClearCodeM_" + i] = vars.Helper.Make<short>(gameStats, 0x32B4 + (2 * i));
+  }
 
   // more pointers - provided by Zexk https://github.com/zexk/bbtracker/blob/mgspw-foxhound-probe/docs/mgspw_research.md
   // should be same as "gameStats" by SnakeSwiss
@@ -638,13 +577,11 @@ init {
 
   IntPtr missionTime = vars.Helper.ScanRel(3, "48 89 05 ?? ?? ?? ?? 41 0F BA E1 19");
   vars.Helper["highrestimer"] = vars.Helper.Make<uint>(missionTime);
-  vars.Helper["timer1"] = vars.Helper.Make<uint>(missionTime, 0x08);
-  vars.Helper["timer2"] = vars.Helper.Make<uint>(missionTime, 0x10);
-  vars.Helper["timer3"] = vars.Helper.Make<uint>(missionTime, 0x14);
 
   IntPtr missionId = vars.Helper.ScanRel(3, "33 DB BE FF FF FF FF B9 FF FF FF 00 48 89 1D ?? ?? ?? ?? 8B EB 89 35 ?? ?? ?? ??");
 
   IntPtr statArray = vars.Helper.ScanRel(3, "48 83 EC 58 48 0F BF C1 48 8D 0C 80 48 8B 05 ?? ?? ?? ?? 0F 10 44 C8 10");
+  vars.Helper["missionLiveTicks"] = vars.Helper.Make<uint>(statArray, 0x18);
 
   IntPtr regionObject = vars.Helper.ScanRel(3, "8B 05 ?? ?? ?? ?? 48 8B 1D ?? ?? ?? ?? 85 C0 75 09 48 85 DB 0F 84 19 01 00 00 39 43 28");
 
@@ -668,18 +605,16 @@ update {
   vars.missionTime = TimeSpan.FromMilliseconds(current.missionTicks * 1000 / 300).ToString(@"mm\:ss\.ms");
   vars.missionBestTime = TimeSpan.FromMilliseconds(current.missionBestTicks * 1000 / 300).ToString(@"mm\:ss\.ms");
   vars.playtimeTimer = TimeSpan.FromSeconds(current.playtimeSec );
-
-  if(current.missionId != old.missionId) {
-    print("new mission started: mission id: " + current.missionId);
-  }
-  if(current.stageCode != old.stageCode) {
+  if(((current.stageCode != old.stageCode) || (current.missionId != old.missionId)) && current.missionId > 0 && current.missionId < 233) {
     print("potential split point: " + current.missionId + "_" + current.stageCode);
+    print("new mission started: mission id: " + current.missionId);
+    string bestRank ="";
+    string bestTime ="";
+    D.Ranks.TryGetValue(Convert.ToString(((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId]), out bestRank);
+    print("mission best time: " + Convert.ToString(((IDictionary<String, Object>)current)["stageBestTimeM_" + current.missionId]));
+    print("mission best rank: " + bestRank);
+    vars.currentClearCode = bestRank;
   }
-  string rank ="";
-  if(current.missionId > 0 && current.missionId < 34) {
-    D.Ranks.TryGetValue(Convert.ToString(((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId]), out rank);
-  }
-  vars.currentClearCode = rank; 
 }
 
 gameTime
@@ -693,19 +628,8 @@ onStart {
   vars.completedSplits.Clear();
   print("current total playtime at start of run: " + TimeSpan.FromMilliseconds((current.highrestimer) * 1000 / 300 ));
   print("starting run now!");
-
-  print("Found PB data:");
-  for (int i = 1; i < 34; i++)
-  {
-    string rank = "";
-    // print("Mission " + i + " best time: " + vars.timeCheck(i) + " best rank: " + vars.rankCheck(i));
-    print("Mission " + i);
-    print("best time: " + D.timeCheck(Convert.ToInt32(((IDictionary<String, Object>)current)["stageBestTimeM_" + i])));
-    D.Ranks.TryGetValue(Convert.ToString(((IDictionary<String, Object>)current)["stageClearCodeM_" + i]), out rank);
-    print("best rank: " + rank);
-    print("----");
-  }
 }
+
 start {
   // for new game
   if ((old.stageCode != current.stageCode && current.stageCode == "epigram") || (old.stageCode == "ms_lobby" && current.stageCode != "ms_lobby")) return true;
