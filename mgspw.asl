@@ -547,20 +547,22 @@ startup {
 init {
   // find linkVarBuf starting point - provided by SnakeSwiss
   IntPtr gameStats = vars.Helper.ScanRel(3, "48 8B 05 ?? ?? ?? ?? 48 05 34 83 01 00 C3");
-  vars.Helper["missionTimerTicks"] = vars.Helper.Make<uint>(gameStats, 0x22);
+  // vars.Helper["missionTimerTicks"] = vars.Helper.Make<uint>(gameStats, 0x22);
   vars.Helper["stageCode"] = vars.Helper.MakeString(gameStats, 0x54);
   vars.Helper["playtimeSec"] = vars.Helper.Make<uint>(gameStats, 0x84);
-  vars.Helper["playtimeTick"] = vars.Helper.Make<uint>(gameStats, 0x28);
-  vars.Helper["heroism"] = vars.Helper.Make<uint>(gameStats, 0x64F4);
-  vars.Helper["missionTicks"] = vars.Helper.Make<uint>(gameStats, 0x3C980);
-  vars.Helper["missionBestTicks"] = vars.Helper.Make<uint>(gameStats, 0x3CA20);
-  vars.Helper["missionScore"] = vars.Helper.Make<uint>(gameStats, 0x3C9A8);
   vars.Helper["missionId"] = vars.Helper.Make<uint>(gameStats, 0x5244);
-  vars.Helper["missionReplays"] = vars.Helper.Make<uint>(gameStats, 0x656C);
+  vars.Helper["curMissionLiveTimeTicks"] = vars.Helper.Make<uint>(gameStats, 0x28);
+  vars.Helper["missionClearTimeTicks"] = vars.Helper.Make<uint>(gameStats, 0x3C980);
+  vars.Helper["missionClearBestTimeTicks"] = vars.Helper.Make<uint>(gameStats, 0x3CA20);
+  vars.Helper["missionClearScore"] = vars.Helper.Make<uint>(gameStats, 0x3C9A8);
+  vars.Helper["missionTakedownCount"] = vars.Helper.Make<uint>(gameStats, 0x3CA00);
+  vars.Helper["missionCQCCount"] = vars.Helper.Make<uint>(gameStats, 0x3CA08);
+  vars.Helper["profileUserName"] = vars.Helper.MakeString(gameStats, 0x144);
+  vars.Helper["profileGmp"] = vars.Helper.Make<uint>(gameStats, 0xB52C);
+  vars.Helper["profileHeroism"] = vars.Helper.Make<uint>(gameStats, 0x64F4);
   vars.Helper["heroismDelta"] = vars.Helper.Make<uint>(gameStats, 0x64EC);
-  vars.Helper["heroism"] = vars.Helper.Make<uint>(gameStats, 0x64F4);
-  vars.Helper["gmp"] = vars.Helper.Make<uint>(gameStats, 0xB52C);
-  vars.Helper["characterUsed"] = vars.Helper.MakeString(gameStats, 0x1C098);
+  vars.Helper["profileMissionsCleared"] = vars.Helper.Make<uint>(gameStats, 0x656C);
+  vars.Helper["lastCharacterUsed"] = vars.Helper.MakeString(gameStats, 0x1C098);
 
 // best time records
 for (int i = 0x01; i < 0xE9; i++)
@@ -582,7 +584,10 @@ for (int i = 0x01; i < 0xE9; i++)
   IntPtr missionId = vars.Helper.ScanRel(3, "33 DB BE FF FF FF FF B9 FF FF FF 00 48 89 1D ?? ?? ?? ?? 8B EB 89 35 ?? ?? ?? ??");
 
   IntPtr statArray = vars.Helper.ScanRel(15, "48 83 EC 58 48 0F BF C1 48 8D 0C 80 48 8B 05 ?? ?? ?? ?? 0F 10 44 C8 10");
-  vars.Helper["missionLiveTicks"] = vars.Helper.Make<uint>(statArray, 0x18);
+  vars.Helper["curMissionFinalTimeTicks"] = vars.Helper.Make<uint>(statArray, 0x620);
+  vars.Helper["curMissionHoldUps"] = vars.Helper.Make<uint>(statArray, 0x788);
+  vars.Helper["curMissionHeadshots"] = vars.Helper.Make<uint>(statArray, 0x7B0);
+  vars.Helper["curMissionAlerts"] = vars.Helper.Make<uint>(statArray, 0x58);
 
   IntPtr regionObject = vars.Helper.ScanRel(9, "8B 05 ?? ?? ?? ?? 48 8B 1D ?? ?? ?? ?? 85 C0 75 09 48 85 DB 0F 84 19 01 00 00 39 43 28");
 
@@ -592,12 +597,11 @@ for (int i = 0x01; i < 0xE9; i++)
 
   vars.completedSplits = new HashSet<string>();
   
-  vars.missionTimer = "00:00:00";
+  vars.missionName = "";
   vars.missionTime =  "00:00:00";
   vars.missionBestTime =  "00:00:00";
   vars.missionBestRank = "Not Played Yet";
   vars.totalPlaytime =  "00:00:00";
-  vars.currentClearCode = "Not Played"; 
   vars.runStartFrames = 0;
 }
 
@@ -616,9 +620,9 @@ update {
   }
 
   if(D.inMission) {
-    vars.missionTime = TimeSpan.FromMilliseconds(current.playtimeTick * 10 / 3).ToString(@"mm\:ss\.ff");
+    vars.missionTime = TimeSpan.FromMilliseconds(current.curMissionLiveTimeTicks * 10 / 3).ToString(@"mm\:ss\.ff");
   } else {
-    vars.missionTime = TimeSpan.FromMilliseconds(current.missionTicks * 10 / 3).ToString(@"mm\:ss\.ff");
+    vars.missionTime = TimeSpan.FromMilliseconds(current.curMissionFinalTimeTicks * 10 / 3).ToString(@"mm\:ss\.ff");
   }
 
   vars.totalPlaytime = TimeSpan.FromSeconds(current.playtimeSec );
@@ -630,23 +634,27 @@ update {
         ||
         (current.missionId != old.missionId)
         ||
-        (current.playtimeTick > 0 && old.playtimeTick == 0)
+        (current.curMissionLiveTimeTicks > 0 && old.curMissionLiveTimeTicks == 0)
       )
       && current.missionId > 0 && current.missionId < 233) {
     print("potential split point: " + current.missionId + "_" + current.stageCode);
     string bestRank ="";
-    string bestTime ="";
     D.Ranks.TryGetValue(Convert.ToString(((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId]), out bestRank);
-    vars.missionBestTime = TimeSpan.FromMilliseconds(((IDictionary<String, Object>)current)["stageBestTimeM_" + current.missionId]  * 10 / 3).ToString(@"mm\:ss\.ff");;
     vars.missionBestRank =  bestRank;
-    vars.currentClearCode = bestRank;
+    string currentMissionName = "";
+    D.Missions.TryGetValue(Convert.ToUInt16(current.missionId), out currentMissionName);
+    vars.missionName = currentMissionName;
+    vars.missionBestTime = TimeSpan.FromMilliseconds(((IDictionary<String, Object>)current)["stageBestTimeM_" + current.missionId] * 10 / 3).ToString(@"mm\:ss\.ff");
   }
 
   if(((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId] != ((IDictionary<String, Object>)old)["stageClearCodeM_" + current.missionId]) {
     var newRank = "";
     D.Ranks.TryGetValue(Convert.ToString(((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId]), out newRank);
+    vars.missionBestRank =  newRank;
     print("a clear code has changed! the clear code is: " + newRank + " on stage " + current.stageCode);
+    vars.missionBestTime = TimeSpan.FromMilliseconds(((IDictionary<String, Object>)current)["stageBestTimeM_" + current.missionId] * 10 / 3).ToString(@"mm\:ss\.ff");
   }
+  
 }
 
 gameTime
@@ -698,11 +706,10 @@ onReset
 {
   vars.completedSplits.Clear();
 
-  vars.missionTimer = "00:00:00";
+  vars.missionName = "";
   vars.missionTime =  "00:00:00";
   vars.missionBestTime =  "00:00:00";
   vars.missionBestRank = "Not Played Yet";
   vars.totalPlaytime =  "00:00:00";
-  vars.currentClearCode = "Not Played"; 
   return true;
 }
