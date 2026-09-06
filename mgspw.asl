@@ -44,6 +44,8 @@ w01s05a           05 - Río del Jade
 w01s06a           06 - Bananal Fruta de Oro: Sorting Shed 
 w01s06a           06 - Bananal Fruta de Oro: Sorting Shed
 
+w04s05n           Underground Passage B (Multiplayer?)
+
 w06s02a           Deck
 
 w07s01a           Isla del Monstruo 
@@ -100,6 +102,8 @@ state("METAL GEAR SOLID PEACE WALKER") {}
 startup {
   vars.D = new ExpandoObject();
   var D = vars.D;
+
+  D.inMission = false;
 
   Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
 /*
@@ -546,14 +550,11 @@ init {
   vars.Helper["missionTimerTicks"] = vars.Helper.Make<uint>(gameStats, 0x22);
   vars.Helper["stageCode"] = vars.Helper.MakeString(gameStats, 0x54);
   vars.Helper["playtimeSec"] = vars.Helper.Make<uint>(gameStats, 0x84);
-  vars.Helper["playtimeTick"] = vars.Helper.Make<uint>(gameStats, 0x88);
+  vars.Helper["playtimeTick"] = vars.Helper.Make<uint>(gameStats, 0x28);
   vars.Helper["heroism"] = vars.Helper.Make<uint>(gameStats, 0x64F4);
   vars.Helper["missionTicks"] = vars.Helper.Make<uint>(gameStats, 0x3C980);
   vars.Helper["missionBestTicks"] = vars.Helper.Make<uint>(gameStats, 0x3CA20);
   vars.Helper["missionScore"] = vars.Helper.Make<uint>(gameStats, 0x3C9A8);
-  vars.Helper["missionId"] = vars.Helper.Make<uint>(gameStats, 0x5244);
-  vars.Helper["missiontimer1"] = vars.Helper.Make<uint>(gameStats, 0x586C);
-  vars.Helper["missiontimer2"] = vars.Helper.Make<uint>(gameStats, 0x5874);
   vars.Helper["missionId"] = vars.Helper.Make<uint>(gameStats, 0x5244);
   vars.Helper["missionReplays"] = vars.Helper.Make<uint>(gameStats, 0x656C);
   vars.Helper["heroismDelta"] = vars.Helper.Make<uint>(gameStats, 0x64EC);
@@ -580,10 +581,13 @@ for (int i = 0x01; i < 0xE9; i++)
 
   IntPtr missionId = vars.Helper.ScanRel(3, "33 DB BE FF FF FF FF B9 FF FF FF 00 48 89 1D ?? ?? ?? ?? 8B EB 89 35 ?? ?? ?? ??");
 
-  IntPtr statArray = vars.Helper.ScanRel(3, "48 83 EC 58 48 0F BF C1 48 8D 0C 80 48 8B 05 ?? ?? ?? ?? 0F 10 44 C8 10");
+  IntPtr statArray = vars.Helper.ScanRel(15, "48 83 EC 58 48 0F BF C1 48 8D 0C 80 48 8B 05 ?? ?? ?? ?? 0F 10 44 C8 10");
   vars.Helper["missionLiveTicks"] = vars.Helper.Make<uint>(statArray, 0x18);
 
-  IntPtr regionObject = vars.Helper.ScanRel(3, "8B 05 ?? ?? ?? ?? 48 8B 1D ?? ?? ?? ?? 85 C0 75 09 48 85 DB 0F 84 19 01 00 00 39 43 28");
+  IntPtr regionObject = vars.Helper.ScanRel(9, "8B 05 ?? ?? ?? ?? 48 8B 1D ?? ?? ?? ?? 85 C0 75 09 48 85 DB 0F 84 19 01 00 00 39 43 28");
+
+  IntPtr charArray = vars.Helper.ScanRel(8, "53 48 83 EC 20 48 8B 05 ?? ?? ?? ?? 48 63 D1 48 8B 0C D0");
+  vars.Helper["health"] = vars.Helper.Make<uint>(charArray, 0x11BE);
 
 
   vars.completedSplits = new HashSet<string>();
@@ -591,7 +595,8 @@ for (int i = 0x01; i < 0xE9; i++)
   vars.missionTimer = "00:00:00";
   vars.missionTime =  "00:00:00";
   vars.missionBestTime =  "00:00:00";
-  vars.playtimeTimer =  "00:00:00";
+  vars.missionBestRank = "Not Played Yet";
+  vars.totalPlaytime =  "00:00:00";
   vars.currentClearCode = "Not Played"; 
   vars.runStartFrames = 0;
 }
@@ -600,20 +605,47 @@ update {
   var D = vars.D;
   vars.Helper.Update();
   vars.Helper.MapPointers();
-    
-  vars.missionTimer = TimeSpan.FromMilliseconds(current.missionTimerTicks * 1000 / 300 );
-  vars.missionTime = TimeSpan.FromMilliseconds(current.missionTicks * 1000 / 300).ToString(@"mm\:ss\.ms");
-  vars.missionBestTime = TimeSpan.FromMilliseconds(current.missionBestTicks * 1000 / 300).ToString(@"mm\:ss\.ms");
-  vars.playtimeTimer = TimeSpan.FromSeconds(current.playtimeSec );
-  if(((current.stageCode != old.stageCode) || (current.missionId != old.missionId)) && current.missionId > 0 && current.missionId < 233) {
+
+  
+  if(current.stageCode == "result" && old.stageCode != "result") {
+    print("currently not in mission");
+    D.inMission = false;
+  } else if (old.stageCode == "ms_lobby" && current.stageCode != "ms_lobby") {
+    print("currently in mission");
+    D.inMission = true;
+  }
+
+  if(D.inMission) {
+    vars.missionTime = TimeSpan.FromMilliseconds(current.playtimeTick * 10 / 3).ToString(@"mm\:ss\.ff");
+  } else {
+    vars.missionTime = TimeSpan.FromMilliseconds(current.missionTicks * 10 / 3).ToString(@"mm\:ss\.ff");
+  }
+
+  vars.totalPlaytime = TimeSpan.FromSeconds(current.playtimeSec );
+  if(
+      (
+        (current.stageCode == "result" && old.stageCode != "result") 
+        ||
+        (old.stageCode == "ms_lobby" && current.stageCode != "ms_lobby") 
+        ||
+        (current.missionId != old.missionId)
+        ||
+        (current.playtimeTick > 0 && old.playtimeTick == 0)
+      )
+      && current.missionId > 0 && current.missionId < 233) {
     print("potential split point: " + current.missionId + "_" + current.stageCode);
-    print("new mission started: mission id: " + current.missionId);
     string bestRank ="";
     string bestTime ="";
     D.Ranks.TryGetValue(Convert.ToString(((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId]), out bestRank);
-    print("mission best time: " + Convert.ToString(((IDictionary<String, Object>)current)["stageBestTimeM_" + current.missionId]));
-    print("mission best rank: " + bestRank);
+    vars.missionBestTime = TimeSpan.FromMilliseconds(((IDictionary<String, Object>)current)["stageBestTimeM_" + current.missionId]  * 10 / 3).ToString(@"mm\:ss\.ff");;
+    vars.missionBestRank =  bestRank;
     vars.currentClearCode = bestRank;
+  }
+
+  if(((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId] != ((IDictionary<String, Object>)old)["stageClearCodeM_" + current.missionId]) {
+    var newRank = "";
+    D.Ranks.TryGetValue(Convert.ToString(((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId]), out newRank);
+    print("a clear code has changed! the clear code is: " + newRank + " on stage " + current.stageCode);
   }
 }
 
@@ -624,6 +656,7 @@ gameTime
 
 onStart {
   var D = vars.D;
+  D.inMission = true;
   vars.runStartFrames = current.highrestimer;
   vars.completedSplits.Clear();
   print("current total playtime at start of run: " + TimeSpan.FromMilliseconds((current.highrestimer) * 1000 / 300 ));
@@ -636,13 +669,25 @@ start {
 }
 
 split {
-    if (current.stageCode != old.stageCode) {
-        return (settings.ContainsKey(current.missionId + "_" + current.stageCode)
-                && settings[current.missionId + "_" + current.stageCode]
-                && vars.completedSplits.Add(current.missionId + "_" + current.stageCode)
-                && ((settings["s_rank"] && ((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId] == 0) || !settings["s_rank"])
-                );
-    }
+    if (
+        current.stageCode != old.stageCode // on stage change
+        && !settings["s_rank"]             // and not needing to check against S-Rank status
+       ) { return (
+                    settings.ContainsKey(current.missionId + "_" + current.stageCode)       // check if combination of mission ID + stageCode are present in settings set
+                  && settings[current.missionId + "_" + current.stageCode]                  // if present, check if the toggle is active for the setting
+                  && vars.completedSplits.Add(current.missionId + "_" + current.stageCode)  // finally, add the setting to the completedLists set, if already present, fail -> no split
+                  );
+    } else if (
+                (settings["s_rank"]) // if needing to check against S-Rank when reaching result screen
+                && ((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId] != ((IDictionary<String, Object>)old)["stageClearCodeM_" + current.missionId] // current and old rank in save are different
+                && ((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId] == 0 // and current rank in memory is S-Rank (value of 0)
+              ) {
+                return (
+                    settings.ContainsKey(current.missionId + "_" + current.stageCode)       // check if combination of mission ID + stageCode are present in settings set
+                  && settings[current.missionId + "_" + current.stageCode]                  // if present, check if the toggle is active for the setting
+                  && vars.completedSplits.Add(current.missionId + "_" + current.stageCode)  // finally, add the setting to the completedLists set, if already present, fail -> no split
+                  );
+              }
 }
 
 reset {
@@ -656,7 +701,8 @@ onReset
   vars.missionTimer = "00:00:00";
   vars.missionTime =  "00:00:00";
   vars.missionBestTime =  "00:00:00";
-  vars.playtimeTimer =  "00:00:00";
+  vars.missionBestRank = "Not Played Yet";
+  vars.totalPlaytime =  "00:00:00";
   vars.currentClearCode = "Not Played"; 
   return true;
 }
