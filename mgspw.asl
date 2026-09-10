@@ -563,6 +563,7 @@ init {
   vars.Helper["heroismDelta"] = vars.Helper.Make<uint>(gameStats, 0x64EC);
   vars.Helper["profileMissionsCleared"] = vars.Helper.Make<uint>(gameStats, 0x656C);
   vars.Helper["lastCharacterUsed"] = vars.Helper.MakeString(gameStats, 0x1C098);
+  vars.Helper["fultons"] = vars.Helper.MakeString(gameStats, 0x130);
 
 // best time records
 for (int i = 0x01; i < 0xE9; i++)
