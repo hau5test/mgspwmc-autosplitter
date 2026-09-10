@@ -679,14 +679,27 @@ start {
 
 split {
     if (
-        current.stageCode != old.stageCode // on stage change
-        && !settings["s_rank"]             // and not needing to check against S-Rank status
+        !settings["s_rank"]             // not needing to check against S-Rank status
+        && current.stageCode != old.stageCode // and on stage change
        ) { return (
                     settings.ContainsKey(current.missionId + "_" + current.stageCode)       // check if combination of mission ID + stageCode are present in settings set
                   && settings[current.missionId + "_" + current.stageCode]                  // if present, check if the toggle is active for the setting
                   && vars.completedSplits.Add(current.missionId + "_" + current.stageCode)  // finally, add the setting to the completedLists set, if already present, fail -> no split
                   );
     } else if (
+                // NG+ setting with S-Rank split enabled, but not able to check against acquired S-Rank from save file
+                (settings["s_rank"]) // if needing to check against S-Rank when reaching result screen
+                && ((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId] == ((IDictionary<String, Object>)old)["stageClearCodeM_" + current.missionId] // current and old rank in save are the same
+                && ((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId] == 0 // and current rank in memory is S-Rank (value of 0)
+                && current.stageCode != old.stageCode // current and old stage code are not the same
+              ) {
+                return (
+                    settings.ContainsKey(current.missionId + "_" + current.stageCode)       // check if combination of mission ID + stageCode are present in settings set
+                  && settings[current.missionId + "_" + current.stageCode]                  // if present, check if the toggle is active for the setting
+                  && vars.completedSplits.Add(current.missionId + "_" + current.stageCode)  // finally, add the setting to the completedLists set, if already present, fail -> no split
+                  );
+    } else if (
+                // NG setting with S-Rank split enabled, able to compare old vs new save data and if S-Rank was acquired
                 (settings["s_rank"]) // if needing to check against S-Rank when reaching result screen
                 && ((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId] != ((IDictionary<String, Object>)old)["stageClearCodeM_" + current.missionId] // current and old rank in save are different
                 && ((IDictionary<String, Object>)current)["stageClearCodeM_" + current.missionId] == 0 // and current rank in memory is S-Rank (value of 0)
