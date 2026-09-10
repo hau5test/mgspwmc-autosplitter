@@ -357,7 +357,7 @@ startup {
     settings.Add("splits", true, "Split Points");
 
     settings.CurrentDefaultParent = "settings";
-    settings.Add("s_rank", true, "Split only on S-Rank");
+    settings.Add("s_rank", true, "Split only on S-Rank (NG only)");
 
     settings.CurrentDefaultParent = "splits";
     settings.Add("main_ops", true, "Main Ops");
