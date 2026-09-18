@@ -727,3 +727,7 @@ onReset
   vars.totalPlaytime =  "00:00:00";
   return true;
 }
+
+isLoading {
+  return true;
+}
